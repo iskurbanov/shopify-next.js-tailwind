@@ -3,7 +3,6 @@ import ProductList from "../components/ProductList"
 
 
 export default function Home({ products }) {
-  console.log(products)
 
   return (
     <div className="text-3xl">
