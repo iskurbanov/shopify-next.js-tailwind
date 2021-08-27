@@ -9,6 +9,22 @@ export default function ShopProvider({ children }) {
   const [checkoutId, setCheckoutId] = useState('')
   const [checkoutUrl, setCheckoutUrl] = useState('')
 
+  useEffect(() => {
+    if (localStorage.checkout_id) {
+      const cartObject = JSON.parse(localStorage.checkout_id)
+
+      if (cartObject[0].id) {
+        setCart([cartObject[0]])
+      } else if (cartObject[0].length > 0) {
+        setCart(...[cartObject[0]])
+      }
+
+      setCheckoutId(cartObject[0].id)
+      setCheckoutUrl(cartObject[0].webUrl)
+    }
+
+  }, [])
+
 
   async function addToCart(newItem) {
     if(cart.length === 0) {
