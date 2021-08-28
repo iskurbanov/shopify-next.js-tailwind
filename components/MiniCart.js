@@ -9,7 +9,7 @@ import { formatter } from '../utils/helpers'
 export default function MiniCart({ cart }) {
   const cancelButtonRef = useRef()
 
-  const { cartOpen, setCartOpen, checkoutUrl } = useContext(CartContext)
+  const { cartOpen, setCartOpen, checkoutUrl, removeCartItem } = useContext(CartContext)
 
   let cartTotal = 0
   cart.map(item => {
@@ -93,7 +93,10 @@ export default function MiniCart({ cart }) {
                                   <p className="text-gray-500">Qty {product.variantQuantity}</p>
 
                                   <div className="flex">
-                                    <button type="button" className="font-medium text-gray-500 hover:text-gray-800">
+                                    <button 
+                                      onClick={() => removeCartItem(product.id)}
+                                      type="button" 
+                                      className="font-medium text-gray-500 hover:text-gray-800">
                                       Remove
                                     </button>
                                   </div>
