@@ -2,6 +2,7 @@ import { Fragment, useContext, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
+import Link from 'next/link'
 import { CartContext } from '../context/shopContext'
 import { formatter } from '../utils/helpers'
 
@@ -67,44 +68,54 @@ export default function MiniCart({ cart }) {
 
                     <div className="mt-8">
                       <div className="flow-root">
-                        <ul role="list" className="-my-6 divide-y divide-gray-200">
-                          {cart.map((product) => (
-                            <li key={product.id} className="py-6 flex">
-                              <div className="relative flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
-                                <Image
-                                  src={product.image}
-                                  alt={product.title}
-                                  layout="fill"
-                                  objectFit="cover"
-                                />
-                              </div>
+                        {
+                          cart.length > 0 ?
 
-                              <div className="ml-4 flex-1 flex flex-col">
-                                <div>
-                                  <div className="flex justify-between text-base font-medium text-gray-900">
-                                    <h3>
-                                      <a href={product.href}>{product.title}</a>
-                                    </h3>
-                                    <p className="ml-4">{formatter.format(product.variantPrice)}</p>
+                            <ul role="list" className="-my-6 divide-y divide-gray-200">
+                              {cart.map((product) => (
+                                <li key={product.id} className="py-6 flex">
+                                  <div className="relative flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
+                                    <Image
+                                      src={product.image}
+                                      alt={product.title}
+                                      layout="fill"
+                                      objectFit="cover"
+                                    />
                                   </div>
-                                  <p className="mt-1 text-sm text-gray-500">{product.variantTitle}</p>
-                                </div>
-                                <div className="flex-1 flex items-end justify-between text-sm">
-                                  <p className="text-gray-500">Qty {product.variantQuantity}</p>
 
-                                  <div className="flex">
-                                    <button 
-                                      onClick={() => removeCartItem(product.id)}
-                                      type="button" 
-                                      className="font-medium text-gray-500 hover:text-gray-800">
-                                      Remove
-                                    </button>
+                                  <div className="ml-4 flex-1 flex flex-col">
+                                    <div>
+                                      <div className="flex justify-between text-base font-medium text-gray-900">
+                                        <h3>
+                                          <Link href={`/products/${product.handle}`} passHref>
+                                            <a onClick={() => setCartOpen(false)}>{product.title}</a>
+                                          </Link>
+                                        </h3>
+                                        <p className="ml-4">{formatter.format(product.variantPrice)}</p>
+                                      </div>
+                                      <p className="mt-1 text-sm text-gray-500">{product.variantTitle}</p>
+                                    </div>
+                                    <div className="flex-1 flex items-end justify-between text-sm">
+                                      <p className="text-gray-500">Qty {product.variantQuantity}</p>
+
+                                      <div className="flex">
+                                        <button
+                                          onClick={() => removeCartItem(product.id)}
+                                          type="button"
+                                          className="font-medium text-gray-500 hover:text-gray-800">
+                                          Remove
+                                        </button>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
+                                </li>
+                              ))}
+                            </ul> :
+                            <div>
+                              <p>Nothing in your cart!</p>
+                            </div>
+                        }
+
                       </div>
                     </div>
                   </div>
