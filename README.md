@@ -1,6 +1,6 @@
 # Welcome to the Shopify + Next.js + Tailwind CSS course
 
-This is a project from the Learn Shopify + Next.js course available at [wwww.BuildNextShop.com](https://buildnextshop.com/)
+This is a project from the Learn Shopify + Next.js course available at [www.BuildNextShop.com](https://buildnextshop.com/)
 
 
 ## Preview
