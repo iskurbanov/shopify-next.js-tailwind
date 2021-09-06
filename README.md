@@ -28,8 +28,8 @@ This is a production ready Headless Shopify storefront using Next.js, Shopify St
   </thead>
   <tbody>
   <tr>
-    <td valign="top"><img width="300" height="300" src="https://cdn.shopify.com/s/files/1/0524/4390/6207/files/Screen_Shot_2021-09-05_at_7.01.58_PM.png?v=1630893822"/></td>
-    <td valign="top"><img width="300" height="300" src="https://cdn.shopify.com/s/files/1/0524/4390/6207/files/Screen_Shot_2021-09-05_at_7.02.38_PM.png?v=1630893822"/></td>
+    <td valign="top"><img width="300" src="https://cdn.shopify.com/s/files/1/0524/4390/6207/files/Screen_Shot_2021-09-05_at_7.01.58_PM.png?v=1630893822"/></td>
+    <td valign="top"><img width="300" src="https://cdn.shopify.com/s/files/1/0524/4390/6207/files/Screen_Shot_2021-09-05_at_7.02.38_PM.png?v=1630893822"/></td>
   </tr>
   </tbody>
 </table>
