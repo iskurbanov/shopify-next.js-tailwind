@@ -22,8 +22,8 @@ This is a production ready Headless Shopify storefront using Next.js, Shopify St
 <table align="center">
   <thead>
     <tr>
-      <td halign="center">Overview</td>
-      <td halign="center">Performance Breakdown</td>
+      <td style="text-align: center; vertical-align: middle;">Overview</td>
+      <td style="text-align: center; vertical-align: middle;">Performance Breakdown</td>
     <tr>
   </thead>
   <tbody>
