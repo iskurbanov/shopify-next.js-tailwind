@@ -4,6 +4,8 @@
   <img src="https://cdn.shopify.com/s/files/1/0524/4390/6207/files/site-preview.gif?v=1630892895" alt="shopify next.js course preview">
 </div>
 
+
+
 This is a production ready Headless Shopify storefront using Next.js, Shopify Storefront API (GraphQL), Tailwind CSS, and Vercel. This is a project from the "Learn Shopify + Next.js + Tailwind CSS" course available at [www.BuildNextShop.com](https://buildnextshop.com/)
 
 ## Topics Covered
