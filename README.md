@@ -50,4 +50,4 @@ This is an ongoing project that is currently released in beta. Future updates wi
 
 
 ### Credits
-Big thank you to the **Shopify, Vercel, and Tailwind Labs** teams for making it so easy to create incredible storefronts with speed. 
+Big thank you to the **Shopify, Vercel, and Tailwind Labs** teams for making it so easy and pleasurable to create incredible storefronts with speed. 
