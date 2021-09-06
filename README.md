@@ -2,6 +2,9 @@
 
 <div align="center">
   <img src="https://cdn.shopify.com/s/files/1/0524/4390/6207/files/site-preview.gif?v=1630892895" alt="shopify next.js course preview">
+  <p align="center">
+    <a href="https://www.buildnextshop.com/">Live Demo Store</a>
+  </p>
 </div>
 
 
