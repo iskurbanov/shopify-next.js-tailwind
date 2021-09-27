@@ -15,7 +15,7 @@ This is a production ready Headless Shopify storefront using Next.js, Shopify St
 
 * Blazing fast storefronts using Next.js for eCommerce.
 * Managing Cart data with React Context and localStorage.
-* Rapid component devleopment with Tailwind CSS.
+* Rapid component development with Tailwind CSS.
 * GraphQL query testing using the GraphiQL app.
 * Shopify Partners Account and Dashboard.
 * Shopify Storefront API (GraphQL).
