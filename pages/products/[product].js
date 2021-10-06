@@ -1,5 +1,5 @@
 import ProductPageContent from "../../components/ProductPageContent"
-import { getAllProducts, getProduct } from "../../lib/shopify"
+import { getAllProducts, getProduct, recursiveCatalog } from "../../lib/shopify"
 
 export default function ProductPage ({ product }) {
   return (
@@ -10,7 +10,7 @@ export default function ProductPage ({ product }) {
 }
 
 export async function getStaticPaths() {
-  const products = await getAllProducts()
+  const products = await recursiveCatalog()
 
   const paths = products.map(item => {
     const product = String(item.node.handle)
