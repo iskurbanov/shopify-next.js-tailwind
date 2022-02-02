@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-export default function ProductOptions({ name, values, selectedOptions, setOptions }) {
+export default function ProductOptions({ name, values, selectedOptions, setOptions, productInventory, selectedVariant }) {
+  
   return (
     <fieldset className="mt-3">
       <legend className="text-xl font-semibold">{name}</legend>
@@ -12,7 +13,7 @@ export default function ProductOptions({ name, values, selectedOptions, setOptio
 
             return (
               <label key={id} htmlFor={id}>
-                <input 
+                <input
                   className="sr-only"
                   type="radio"
                   id={id}

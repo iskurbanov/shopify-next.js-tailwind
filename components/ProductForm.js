@@ -1,9 +1,30 @@
-import { useState, useContext } from "react"
+import { useState, useEffect, useContext } from "react"
 import { formatter } from '../utils/helpers'
 import ProductOptions from "./ProductOptions"
 import { CartContext } from "../context/shopContext"
+import axios from "axios"
+import useSWR from 'swr'
+
+// setup inventory fetcher
+const fetchInventory = (url, id) =>
+  axios
+    .get(url, {
+      params: {
+        id: id,
+      },
+    })
+    .then((res) => res.data)
 
 export default function ProductForm({ product }) {
+
+  const { data: productInventory } = useSWR(
+    ['/api/available', product.handle],
+    (url, id) => fetchInventory(url, id),
+    { errorRetryCount: 3 }
+  )
+
+  const [available, setAvailable] = useState(true)
+
 
   const { addToCart } = useContext(CartContext)
 
@@ -36,7 +57,7 @@ export default function ProductForm({ product }) {
 
   function setOptions(name, value) {
     setSelectedOptions(prevState => {
-      return { ...prevState, [name]: value}
+      return { ...prevState, [name]: value }
     })
 
     const selection = {
@@ -52,26 +73,51 @@ export default function ProductForm({ product }) {
   }
 
 
+  useEffect(() => {
+    if (productInventory) {
+      const checkAvailable = productInventory?.variants.edges.filter(item => item.node.id === selectedVariant.id)
+
+      if (checkAvailable[0].node.availableForSale) {
+        setAvailable(true)
+      } else {
+        setAvailable(false)
+      }
+    }
+  }, [productInventory, selectedVariant])
+
+
   return (
     <div className="rounded-2xl p-4 shadow-lg flex flex-col w-full md:w-1/3">
       <h2 className="text-2xl font-bold">{product.title}</h2>
       <span className="pb-3">{formatter.format(product.variants.edges[0].node.priceV2.amount)}</span>
       {
-        product.options.map(({ name, values}) => (
-          <ProductOptions 
+        product.options.map(({ name, values }) => (
+          <ProductOptions
             key={`key-${name}`}
             name={name}
             values={values}
             selectedOptions={selectedOptions}
             setOptions={setOptions}
+            selectedVariant={selectedVariant}
+            productInventory={productInventory}
+            available={available}
           />
         ))
       }
-      <button 
-        onClick={() => {
-          addToCart(selectedVariant)
-        }}
-        className="bg-black rounded-lg text-white px-2 py-3 mt-3 hover:bg-gray-800">Add To Card</button>
+      {
+        available ?
+          <button
+            onClick={() => {
+              addToCart(selectedVariant)
+            }}
+            className="bg-black rounded-lg text-white px-2 py-3 mt-3 hover:bg-gray-800">Add To Card
+          </button> :
+          <button
+            className="rounded-lg text-white px-2 py-3 mt-3 bg-gray-800 cursor-not-allowed">
+              Sold out!
+          </button>
+      }
+
     </div>
   )
 }
