@@ -20,6 +20,7 @@ This is a production ready Headless Shopify storefront using Next.js, Shopify St
 * Shopify Partners Account and Dashboard.
 * Shopify Storefront API (GraphQL).
 * Vercel for deployment.
+* NEW 2022 Updated! Using SWR for automatically updating content on SSG (Static Site Generation) websites.
 
 
 ## Performance
@@ -42,7 +43,6 @@ This is a production ready Headless Shopify storefront using Next.js, Shopify St
 
 ## Future Updates:
 This is an ongoing project that is currently released in beta. Future updates will include:
-* Using SWR for automatically updating content on SSG (Static Site Generation) websites.
 * Webhooks triggering for product updates, etc. 
 * Additional ecommerce ready sections for Next.js using Tailwind CSS (currently 5 are included with the course assets)
 * Addition of lectures covering Shopify’s Hydrogen (when released)
