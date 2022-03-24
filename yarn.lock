@@ -2373,10 +2373,17 @@
     "dom7" "^3.0.0"
     "ssr-window" "^3.0.0"
 
+<<<<<<< HEAD
 "swr@^1.2.1":
   "integrity" "sha512-1cuWXqJqXcFwbgONGCY4PHZ8v05009JdHsC3CIC6u7d00kgbMswNr1sHnnhseOBxtzVqcCNpOHEgVDciRer45w=="
   "resolved" "https://registry.npmjs.org/swr/-/swr-1.2.1.tgz"
   "version" "1.2.1"
+=======
+"swr@^1.2.0":
+  "integrity" "sha512-C3IXeKOREn0jQ1ewXRENE7ED7jjGbFTakwB64eLACkCqkF/A0N2ckvpCTftcaSYi5yV36PzoehgVCOVRmtECcA=="
+  "resolved" "https://registry.npmjs.org/swr/-/swr-1.2.0.tgz"
+  "version" "1.2.0"
+>>>>>>> 6f27da660ef7b33f21fa153535ea64a2d5fa3c34
 
 "tailwindcss@^2.2.4":
   "integrity" "sha512-jv35rugP5j8PpzbXnsria7ZAry7Evh0KtQ4MZqNd+PhF+oIKPwJTVwe/rmfRx9cZw3W7iPZyzBmeoAoNwfJ1yg=="

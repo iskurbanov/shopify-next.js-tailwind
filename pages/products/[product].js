@@ -1,7 +1,13 @@
 import ProductPageContent from "../../components/ProductPageContent"
 import { getAllProducts, getProduct, recursiveCatalog } from "../../lib/shopify"
 
-export default function ProductPage ({ product }) {
+export default function ProductPage({ product }) {
+
+  // const realId = Buffer.from(product.id, 'base64').toString('utf8').split("/").pop()
+  // console.log(realId)
+
+  
+
   return (
     <div className="min-h-screen py-12 sm:pt-20">
       <ProductPageContent product={product} />

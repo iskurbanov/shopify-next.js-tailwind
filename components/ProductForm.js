@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useContext, useEffect } from "react"
 import { formatter } from '../utils/helpers'
 import ProductOptions from "./ProductOptions"
@@ -12,17 +13,43 @@ const fetcher = (url, id) => (
     }
   }).then((res) => res.data)
 )
+=======
+import { useState, useEffect, useContext } from "react"
+import { formatter } from '../utils/helpers'
+import ProductOptions from "./ProductOptions"
+import { CartContext } from "../context/shopContext"
+import axios from "axios"
+import useSWR from 'swr'
+
+// setup inventory fetcher
+const fetchInventory = (url, id) =>
+  axios
+    .get(url, {
+      params: {
+        id: id,
+      },
+    })
+    .then((res) => res.data)
+>>>>>>> 6f27da660ef7b33f21fa153535ea64a2d5fa3c34
 
 export default function ProductForm({ product }) {
 
   const { data: productInventory } = useSWR(
     ['/api/available', product.handle],
+<<<<<<< HEAD
     (url, id) => fetcher(url, id),
+=======
+    (url, id) => fetchInventory(url, id),
+>>>>>>> 6f27da660ef7b33f21fa153535ea64a2d5fa3c34
     { errorRetryCount: 3 }
   )
 
   const [available, setAvailable] = useState(true)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6f27da660ef7b33f21fa153535ea64a2d5fa3c34
   const { addToCart } = useContext(CartContext)
 
   const allVariantOptions = product.variants.edges?.map(variant => {
@@ -82,6 +109,19 @@ export default function ProductForm({ product }) {
   }, [productInventory, selectedVariant])
 
 
+  useEffect(() => {
+    if (productInventory) {
+      const checkAvailable = productInventory?.variants.edges.filter(item => item.node.id === selectedVariant.id)
+
+      if (checkAvailable[0].node.availableForSale) {
+        setAvailable(true)
+      } else {
+        setAvailable(false)
+      }
+    }
+  }, [productInventory, selectedVariant])
+
+
   return (
     <div className="rounded-2xl p-4 shadow-lg flex flex-col w-full md:w-1/3">
       <h2 className="text-2xl font-bold">{product.title}</h2>
@@ -94,6 +134,9 @@ export default function ProductForm({ product }) {
             values={values}
             selectedOptions={selectedOptions}
             setOptions={setOptions}
+            selectedVariant={selectedVariant}
+            productInventory={productInventory}
+            available={available}
           />
         ))
       }
@@ -103,6 +146,7 @@ export default function ProductForm({ product }) {
             onClick={() => {
               addToCart(selectedVariant)
             }}
+<<<<<<< HEAD
             className="bg-black rounded-lg text-white px-2 py-3 mt-3 hover:bg-gray-800">
             Add To Card
           </button>
@@ -112,6 +156,16 @@ export default function ProductForm({ product }) {
             Sold out!
           </button>
       }
+=======
+            className="bg-black rounded-lg text-white px-2 py-3 mt-3 hover:bg-gray-800">Add To Card
+          </button> :
+          <button
+            className="rounded-lg text-white px-2 py-3 mt-3 bg-gray-800 cursor-not-allowed">
+              Sold out!
+          </button>
+      }
+
+>>>>>>> 6f27da660ef7b33f21fa153535ea64a2d5fa3c34
     </div>
   )
 }

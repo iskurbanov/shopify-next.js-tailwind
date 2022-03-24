@@ -1,5 +1,7 @@
-export default async function available(req, res) {
-  const { query: { id } } = req
+export default async function send(req, res) {
+  const {
+    query: { id },
+  } = req
 
   const domain = process.env.SHOPIFY_STORE_DOMAIN
   const storefrontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESSTOKEN
@@ -31,19 +33,19 @@ export default async function available(req, res) {
 
   async function getProduct(handle) {
     const query = `
-  {
-    productByHandle(handle: "${handle}") {
-      id
-      variants(first: 25) {
-        edges {
-          node {
-            id
-            availableForSale
+    {
+      productByHandle(handle: "${handle}") {
+        id
+        variants(first: 25) {
+          edges {
+            node {
+              id
+              availableForSale
+            }
           }
         }
       }
-    }
-  }`
+    }`
 
     const response = await ShopifyData(query)
 
@@ -52,8 +54,7 @@ export default async function available(req, res) {
     return product
   }
 
-  const products = await getProduct(id)
+  const product = await getProduct(id)
 
-  res.status(200)
-  res.json(products)
+  res.json(product)
 }

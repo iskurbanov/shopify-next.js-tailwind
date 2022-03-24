@@ -4,9 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 import RecommendedList from './RecommendedList'
 
-
 export default function ProductPageContent({ product }) {
-
+  
   const images = []
 
   product.images.edges.map((image, i) => {
