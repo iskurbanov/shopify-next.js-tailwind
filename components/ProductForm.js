@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-import { useState, useContext, useEffect } from "react"
-import { formatter } from '../utils/helpers'
-import ProductOptions from "./ProductOptions"
-import { CartContext } from "../context/shopContext"
-import useSWR from "swr"
-import axios from "axios"
-
-const fetcher = (url, id) => (
-  axios.get(url, {
-    params: {
-      id: id
-    }
-  }).then((res) => res.data)
-)
-=======
 import { useState, useEffect, useContext } from "react"
 import { formatter } from '../utils/helpers'
 import ProductOptions from "./ProductOptions"
@@ -30,26 +14,17 @@ const fetchInventory = (url, id) =>
       },
     })
     .then((res) => res.data)
->>>>>>> 6f27da660ef7b33f21fa153535ea64a2d5fa3c34
 
 export default function ProductForm({ product }) {
 
   const { data: productInventory } = useSWR(
     ['/api/available', product.handle],
-<<<<<<< HEAD
-    (url, id) => fetcher(url, id),
-=======
     (url, id) => fetchInventory(url, id),
->>>>>>> 6f27da660ef7b33f21fa153535ea64a2d5fa3c34
     { errorRetryCount: 3 }
   )
 
   const [available, setAvailable] = useState(true)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6f27da660ef7b33f21fa153535ea64a2d5fa3c34
   const { addToCart } = useContext(CartContext)
 
   const allVariantOptions = product.variants.edges?.map(variant => {
@@ -146,17 +121,6 @@ export default function ProductForm({ product }) {
             onClick={() => {
               addToCart(selectedVariant)
             }}
-<<<<<<< HEAD
-            className="bg-black rounded-lg text-white px-2 py-3 mt-3 hover:bg-gray-800">
-            Add To Card
-          </button>
-          :
-          <button
-            className="rounded-lg text-white px-2 py-3 mt-3 bg-gray-800 cursor-not-allowed">
-            Sold out!
-          </button>
-      }
-=======
             className="bg-black rounded-lg text-white px-2 py-3 mt-3 hover:bg-gray-800">Add To Card
           </button> :
           <button
@@ -165,7 +129,6 @@ export default function ProductForm({ product }) {
           </button>
       }
 
->>>>>>> 6f27da660ef7b33f21fa153535ea64a2d5fa3c34
     </div>
   )
 }
