@@ -74,6 +74,17 @@ export default function ShopProvider({ children }) {
     }
   }
 
+  async function clearCart() {
+    const updatedCart = []
+    
+    setCart(updatedCart)
+
+    const newCheckout = await updateCheckout(checkoutId, updatedCart)
+
+    localStorage.setItem("checkout_id", JSON.stringify([updatedCart, newCheckout]))
+
+  }
+
 
   return (
     <CartContext.Provider value={{ 
@@ -82,7 +93,8 @@ export default function ShopProvider({ children }) {
       setCartOpen,
       addToCart,
       checkoutUrl,
-      removeCartItem
+      removeCartItem,
+      clearCart
     }}>
       {children}
     </CartContext.Provider>

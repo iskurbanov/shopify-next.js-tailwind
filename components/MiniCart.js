@@ -10,7 +10,7 @@ import { formatter } from '../utils/helpers'
 export default function MiniCart({ cart }) {
   const cancelButtonRef = useRef()
 
-  const { cartOpen, setCartOpen, checkoutUrl, removeCartItem } = useContext(CartContext)
+  const { cartOpen, setCartOpen, checkoutUrl, removeCartItem, clearCart } = useContext(CartContext)
 
   let cartTotal = 0
   cart.map(item => {
@@ -137,7 +137,13 @@ export default function MiniCart({ cart }) {
                         </div>
                         <div className="mt-6 flex justify-center text-sm text-center text-gray-500">
                           <p>
-                            or{' '}
+                            <button
+                              onClick={() => clearCart()}
+                              className="font-medium hover:text-gray-800"
+                            >
+                              Clear Cart
+                            </button>
+                            {' '}or{' '}
                             <button
                               type="button"
                               className="font-medium hover:text-gray-800"
