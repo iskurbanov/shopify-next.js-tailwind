@@ -8,6 +8,7 @@ export default function ShopProvider({ children }) {
   const [cartOpen, setCartOpen] = useState(false)
   const [checkoutId, setCheckoutId] = useState('')
   const [checkoutUrl, setCheckoutUrl] = useState('')
+  const [cartLoading, setCartLoading] = useState(false)
 
   useEffect(() => {
     if (localStorage.checkout_id) {
@@ -62,12 +63,14 @@ export default function ShopProvider({ children }) {
 
   async function removeCartItem(itemToRemove) {
     const updatedCart = cart.filter(item => item.id !== itemToRemove)
+    setCartLoading(true)
 
     setCart(updatedCart)
 
     const newCheckout = await updateCheckout(checkoutId, updatedCart)
 
     localStorage.setItem("checkout_id", JSON.stringify([updatedCart, newCheckout]))
+    setCartLoading(false)
 
     if (cart.length === 1) {
       setCartOpen(false)
@@ -94,7 +97,8 @@ export default function ShopProvider({ children }) {
       addToCart,
       checkoutUrl,
       removeCartItem,
-      clearCart
+      clearCart,
+      cartLoading
     }}>
       {children}
     </CartContext.Provider>
