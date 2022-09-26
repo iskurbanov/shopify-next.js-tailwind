@@ -38,7 +38,7 @@ export default function ProductForm({ product }) {
       id: variant.node.id,
       title: product.title,
       handle: product.handle,
-      image: variant.node.image?.originalSrc,
+      image: variant.node.image?.url,
       options: allOptions,
       variantTitle: variant.node.title,
       variantPrice: variant.node.priceV2.amount,
@@ -75,30 +75,16 @@ export default function ProductForm({ product }) {
     if (productInventory) {
       const checkAvailable = productInventory?.variants.edges.filter(item => item.node.id === selectedVariant.id)
 
-      if (checkAvailable[0].node.availableForSale) {
+      if (checkAvailable[0]?.node.availableForSale) {
         setAvailable(true)
       } else {
         setAvailable(false)
       }
     }
   }, [productInventory, selectedVariant])
-
-
-  useEffect(() => {
-    if (productInventory) {
-      const checkAvailable = productInventory?.variants.edges.filter(item => item.node.id === selectedVariant.id)
-
-      if (checkAvailable[0].node.availableForSale) {
-        setAvailable(true)
-      } else {
-        setAvailable(false)
-      }
-    }
-  }, [productInventory, selectedVariant])
-
 
   return (
-    <div className="rounded-2xl p-4 shadow-lg flex flex-col w-full md:w-1/3">
+    <div className="flex flex-col w-full p-4 shadow-lg rounded-2xl md:w-1/3">
       <h2 className="text-2xl font-bold">{product.title}</h2>
       <span className="pb-3">{formatter.format(product.variants.edges[0].node.priceV2.amount)}</span>
       {
@@ -121,10 +107,10 @@ export default function ProductForm({ product }) {
             onClick={() => {
               addToCart(selectedVariant)
             }}
-            className="bg-black rounded-lg text-white px-2 py-3 mt-3 hover:bg-gray-800">Add To Card
+            className="px-2 py-3 mt-3 text-white bg-black rounded-lg hover:bg-gray-800">Add To Card
           </button> :
           <button
-            className="rounded-lg text-white px-2 py-3 mt-3 bg-gray-800 cursor-not-allowed">
+            className="px-2 py-3 mt-3 text-white bg-gray-800 rounded-lg cursor-not-allowed">
               Sold out!
           </button>
       }
