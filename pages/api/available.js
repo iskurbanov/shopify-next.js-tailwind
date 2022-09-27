@@ -34,7 +34,7 @@ export default async function send(req, res) {
   async function getProduct(handle) {
     const query = `
     {
-      productByHandle(handle: "${handle}") {
+      product(handle: "${handle}") {
         id
         variants(first: 25) {
           edges {
@@ -49,7 +49,7 @@ export default async function send(req, res) {
 
     const response = await ShopifyData(query)
 
-    const product = response.data.productByHandle ? response.data.productByHandle : []
+    const product = response.data.product ? response.data.product : []
 
     return product
   }
