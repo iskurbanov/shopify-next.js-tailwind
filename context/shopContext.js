@@ -30,7 +30,7 @@ export default function ShopProvider({ children }) {
   async function addToCart(newItem) {
     setCartOpen(true)
 
-    if(cart.length === 0) {
+    if (cart.length === 0) {
       setCart([newItem])
 
       const checkout = await createCheckout(newItem.id, newItem.variantQuantity)
@@ -42,16 +42,16 @@ export default function ShopProvider({ children }) {
     } else {
       let newCart = []
       let added = false
-      
+
       cart.map(item => {
         if (item.id === newItem.id) {
           item.variantQuantity++
           newCart = [...cart]
           added = true
-        } 
+        }
       })
 
-      if(!added) {
+      if (!added) {
         newCart = [...cart, newItem]
       }
 
@@ -77,9 +77,49 @@ export default function ShopProvider({ children }) {
     }
   }
 
+  async function incrementCartItem(item) {
+    setCartLoading(true)
+
+    let newCart = []
+
+    cart.map(cartItem => {
+      if (cartItem.id === item.id) {
+        cartItem.variantQuantity++
+        newCart = [...cart]
+      }
+    })
+    setCart(newCart)
+    const newCheckout = await updateCheckout(checkoutId, newCart)
+
+    localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
+    setCartLoading(false)
+  }
+
+  async function decrementCartItem(item) {
+    setCartLoading(true)
+    
+    if (item.variantQuantity === 1) {
+      removeCartItem(item.id)
+    } else {
+      let newCart = []
+      cart.map(cartItem => {
+        if (cartItem.id === item.id) {
+          cartItem.variantQuantity--
+          newCart = [...cart]
+        }
+      })
+
+      setCart(newCart)
+      const newCheckout = await updateCheckout(checkoutId, newCart)
+
+      localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
+    }
+    setCartLoading(false)
+  }
+
   async function clearCart() {
     const updatedCart = []
-    
+
     setCart(updatedCart)
 
     const newCheckout = await updateCheckout(checkoutId, updatedCart)
@@ -90,7 +130,7 @@ export default function ShopProvider({ children }) {
 
 
   return (
-    <CartContext.Provider value={{ 
+    <CartContext.Provider value={{
       cart,
       cartOpen,
       setCartOpen,
@@ -98,7 +138,9 @@ export default function ShopProvider({ children }) {
       checkoutUrl,
       removeCartItem,
       clearCart,
-      cartLoading
+      cartLoading,
+      incrementCartItem,
+      decrementCartItem
     }}>
       {children}
     </CartContext.Provider>

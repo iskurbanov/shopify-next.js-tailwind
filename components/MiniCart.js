@@ -10,7 +10,7 @@ import { formatter } from '../utils/helpers'
 export default function MiniCart({ cart }) {
   const cancelButtonRef = useRef()
 
-  const { cartOpen, setCartOpen, checkoutUrl, removeCartItem, clearCart, cartLoading } = useContext(CartContext)
+  const { cartOpen, setCartOpen, checkoutUrl, removeCartItem, clearCart, cartLoading, incrementCartItem, decrementCartItem } = useContext(CartContext)
 
   let cartTotal = 0
   cart.map(item => {
@@ -73,7 +73,8 @@ export default function MiniCart({ cart }) {
 
                             <ul role="list" className="-my-6 divide-y divide-gray-200">
                               {cart.map((product) => (
-                                <li key={product.id + Math.random()} className="flex py-6">
+                                <li key={product.id + Math.random()} className="relative flex py-6">
+                                  <div className={`top-0 left-0 right-0 z-50 w-full h-full absolute ${cartLoading ? "bg-white opacity-60" : "hidden"}`}></div>
                                   <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden border border-gray-200 rounded-md">
                                     <Image
                                       src={product.image}
@@ -96,8 +97,24 @@ export default function MiniCart({ cart }) {
                                       <p className="mt-1 text-sm text-gray-500">{product.variantTitle}</p>
                                     </div>
                                     <div className="flex items-end justify-between flex-1 text-sm">
-                                      <p className="text-gray-500">Qty {product.variantQuantity}</p>
-
+                                      {/* <p className="text-gray-500">Qty {product.variantQuantity}</p> */}
+                                      <div className={`border`}>
+                                        <button 
+                                          className="px-2" 
+                                          onClick={() => decrementCartItem(product)}
+                                          disabled={cartLoading}
+                                        >
+                                          -
+                                        </button>
+                                        <span className="px-2 border-l border-r">{product.variantQuantity}</span>
+                                        <button 
+                                          className="px-2" 
+                                          onClick={() => incrementCartItem(product)}
+                                          disabled={cartLoading}
+                                        >
+                                          +
+                                        </button>
+                                      </div>
                                       <div className="flex">
                                         <button
                                           onClick={() => removeCartItem(product.id)}
@@ -132,7 +149,7 @@ export default function MiniCart({ cart }) {
                         <div className="mt-6">
                           <a
                             href={checkoutUrl}
-                            className="flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-800"
+                            className={`flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-800 ${cartLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
                           >
                             Checkout
                           </a>
