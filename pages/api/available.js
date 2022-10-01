@@ -7,7 +7,7 @@ export default async function send(req, res) {
   const storefrontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESSTOKEN
 
   async function ShopifyData(query) {
-    const URL = `https://${domain}/api/2021-07/graphql.json`
+    const URL = `https://${domain}/api/2022-10/graphql.json`
 
     const options = {
       endpoint: URL,
@@ -34,7 +34,7 @@ export default async function send(req, res) {
   async function getProduct(handle) {
     const query = `
     {
-      productByHandle(handle: "${handle}") {
+      product(handle: "${handle}") {
         id
         variants(first: 25) {
           edges {
@@ -49,12 +49,11 @@ export default async function send(req, res) {
 
     const response = await ShopifyData(query)
 
-    const product = response.data.productByHandle ? response.data.productByHandle : []
+    const product = response.data.product ? response.data.product : []
 
     return product
   }
 
   const product = await getProduct(id)
-
   res.json(product)
 }

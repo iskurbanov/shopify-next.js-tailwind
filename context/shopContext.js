@@ -8,6 +8,7 @@ export default function ShopProvider({ children }) {
   const [cartOpen, setCartOpen] = useState(false)
   const [checkoutId, setCheckoutId] = useState('')
   const [checkoutUrl, setCheckoutUrl] = useState('')
+  const [cartLoading, setCartLoading] = useState(false)
 
   useEffect(() => {
     if (localStorage.checkout_id) {
@@ -26,13 +27,15 @@ export default function ShopProvider({ children }) {
   }, [])
 
 
-  async function addToCart(newItem) {
+  async function addToCart(addedItem) {
+    const newItem = {...addedItem}
+    console.log(newItem)
     setCartOpen(true)
 
-    if(cart.length === 0) {
+    if (cart.length === 0) {
       setCart([newItem])
 
-      const checkout = await createCheckout(newItem.id, newItem.variantQuantity)
+      const checkout = await createCheckout(newItem.id, 1)
 
       setCheckoutId(checkout.id)
       setCheckoutUrl(checkout.webUrl)
@@ -41,16 +44,16 @@ export default function ShopProvider({ children }) {
     } else {
       let newCart = []
       let added = false
-      
+
       cart.map(item => {
         if (item.id === newItem.id) {
           item.variantQuantity++
           newCart = [...cart]
           added = true
-        } 
+        }
       })
 
-      if(!added) {
+      if (!added) {
         newCart = [...cart, newItem]
       }
 
@@ -62,6 +65,62 @@ export default function ShopProvider({ children }) {
 
   async function removeCartItem(itemToRemove) {
     const updatedCart = cart.filter(item => item.id !== itemToRemove)
+    setCartLoading(true)
+
+    setCart(updatedCart)
+
+    const newCheckout = await updateCheckout(checkoutId, updatedCart)
+
+    localStorage.setItem("checkout_id", JSON.stringify([updatedCart, newCheckout]))
+    setCartLoading(false)
+
+    if (cart.length === 1) {
+      setCartOpen(false)
+    }
+  }
+
+  async function incrementCartItem(item) {
+    setCartLoading(true)
+
+    let newCart = []
+
+    cart.map(cartItem => {
+      if (cartItem.id === item.id) {
+        cartItem.variantQuantity++
+        newCart = [...cart]
+      }
+    })
+    setCart(newCart)
+    const newCheckout = await updateCheckout(checkoutId, newCart)
+
+    localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
+    setCartLoading(false)
+  }
+
+  async function decrementCartItem(item) {
+    setCartLoading(true)
+
+    if (item.variantQuantity === 1) {
+      removeCartItem(item.id)
+    } else {
+      let newCart = []
+      cart.map(cartItem => {
+        if (cartItem.id === item.id) {
+          cartItem.variantQuantity--
+          newCart = [...cart]
+        }
+      })
+
+      setCart(newCart)
+      const newCheckout = await updateCheckout(checkoutId, newCart)
+
+      localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
+    }
+    setCartLoading(false)
+  }
+
+  async function clearCart() {
+    const updatedCart = []
 
     setCart(updatedCart)
 
@@ -69,20 +128,21 @@ export default function ShopProvider({ children }) {
 
     localStorage.setItem("checkout_id", JSON.stringify([updatedCart, newCheckout]))
 
-    if (cart.length === 1) {
-      setCartOpen(false)
-    }
   }
 
 
   return (
-    <CartContext.Provider value={{ 
+    <CartContext.Provider value={{
       cart,
       cartOpen,
       setCartOpen,
       addToCart,
       checkoutUrl,
-      removeCartItem
+      removeCartItem,
+      clearCart,
+      cartLoading,
+      incrementCartItem,
+      decrementCartItem
     }}>
       {children}
     </CartContext.Provider>
