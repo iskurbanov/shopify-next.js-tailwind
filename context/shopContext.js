@@ -27,13 +27,15 @@ export default function ShopProvider({ children }) {
   }, [])
 
 
-  async function addToCart(newItem) {
+  async function addToCart(addedItem) {
+    const newItem = {...addedItem}
+    console.log(newItem)
     setCartOpen(true)
 
     if (cart.length === 0) {
       setCart([newItem])
 
-      const checkout = await createCheckout(newItem.id, newItem.variantQuantity)
+      const checkout = await createCheckout(newItem.id, 1)
 
       setCheckoutId(checkout.id)
       setCheckoutUrl(checkout.webUrl)
@@ -97,7 +99,7 @@ export default function ShopProvider({ children }) {
 
   async function decrementCartItem(item) {
     setCartLoading(true)
-    
+
     if (item.variantQuantity === 1) {
       removeCartItem(item.id)
     } else {
